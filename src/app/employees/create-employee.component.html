@@ -1,0 +1,102 @@
+<form #empForm="ngForm" ngNativeValidate (ngSubmit)="saveEmployee(empForm)">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">Create Employee</div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input id="fullName" required name="fname" type="text" class="form-control" [(ngModel)]="fullName" #fullNameControl="ngModel" />
+                    <!--
+                    <div>Touched : {{fullNameControl.touched}}</div>
+                    <div>Untouched : {{fullNameControl.untouched}}</div>
+                    <div>valid : {{fullNameControl.valid}}</div>
+                    <div>invalid : {{fullNameControl.invalid}}</div>
+                    <div>dirty : {{fullNameControl.dirty}}</div>
+                    <div>prestine : {{fullNameControl.pristine}}</div>
+                    -->
+                </div>
+                <div class="form-group">
+                    <label for="eMail">Email</label>
+                    <input id="eMail" name="eMail" type="email" class="form-control" [(ngModel)]="eMail" />
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div>
+                        <!-- Checked doesn't work if ngModel is included-->
+                        <label class="radio-inline"><input id="male" name="gender" checked type="radio" value="male"
+                                [(ngModel)]="gender" />Male</label>
+                        <label class="radio-inline"><input id="female" name="gender" type="radio" value="female"
+                                [(ngModel)]="gender" />Female</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input id="phoneNumber" name="phoneNumber" type="tel" class="form-control"
+                        [(ngModel)]="phoneNumber" />
+                </div>
+                <div class="form-group">
+                    <label>Contact Preference</label>
+                    <div>
+                        <label class="radio-inline"><input id="Email" name="contact" checked type="radio" value="email"
+                                [(ngModel)]="contact" />Email</label>
+                        <label class="radio-inline"><input id="Phone" name="contact" type="radio" value="phone"
+                                [(ngModel)]="contact" />Phone</label>
+                        <!-- Disable this property; disabled is not working -->
+                        <!--NOT WORKING !!<label class="radio-inline"><input id="Fax" name="contact" type="radio" disabled value="fax" [(ngModel)]="contact" />Fax</label>-->
+                        <label class="radio-inline"><input id="Fax" name="contact" type="radio" [attr.disabled]="true"
+                                value="fax" [(ngModel)]="contact" />Fax</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <!-- THIS ALSO WORKS, but only on a single checkbox 
+                        <label class="check-inline"><input id="isActive" name="isActive" type="checkbox"  disabled  [(ngModel)]="isActive" />Is Active</label>-->
+                    <label class="check-inline"><input id="isActive" name="isActive" type="checkbox"
+                            [attr.disabled]="true" [(ngModel)]="isActive" />Is Active</label>
+                </div>
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select id="department" name="department" class="form-control" [(ngModel)]="department">
+                        <!--
+                            <option value="helpdesk">Help Desk</option>
+                            <option selected value="it">IT</option>
+                            <option [attr.disabled] = "true" value="sales">Sales</option>
+                            <option values="marketing">Marketing</option>
+                         -->
+                        <option [value]="dept.DeptId" *ngFor="let dept of departments">
+                            {{dept.DeptName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="hireDate">Hire Date</label>
+                    <input id="hireDate" name="hireDate" type="text" placeholder="DatePicker" class="form-control"
+                        [(ngModel)]="hireDate" bsDatepicker [bsConfig]="datePickerConfig" />
+                </div>
+                <div class="form-group">
+                    <label for="photoPath">Photo Path</label>
+                    <input id="photoPath" name="photoPath" type="text" placeholder="photoPath" class="form-control"
+                        [(ngModel)]="photoPath" />
+                </div>
+                <div class="form-group">
+                    <!-- don't submit by explicitly making it of type = button. By default, it will be a submit button -->
+                    <button id="showPreview" class="btn btn-primary" type="button" [innerHtml] = "preview" name="showPreview" (click)="togglePreview()">
+                        
+                    </button>
+                </div>
+                <div class="form-group">
+                    <div *ngIf="displayImage" class="form-group">
+                        <img [src]="photoPath" width="100px" height="100px" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--Template reference variable -->
+<!--{{empForm.value | json}}-->
